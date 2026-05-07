@@ -8,13 +8,19 @@ import edu.derryberry.model.Store;
 
 public class Menu {
 
-	private Scanner scanner;
+	private Scanner scn;
 	private Store store;
-	private ShoppingCart cart;
 	private Customer customer;
-	
-	public Menu() {
-		this.scanner = new Scanner(System.in);
-		
+	private ShoppingCart cart;
+
+	// initialize menu
+	public Menu(Scanner scn, Store store, ShoppingCart cart) {
+		this.scn = scn;
 	}
+	
+	public void introSequence() {
+		System.out.println("Welcome to Dustin's Shop!");
+		System.out.println("Please select an option: ");
+	}
+	
 }
