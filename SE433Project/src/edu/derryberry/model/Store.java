@@ -19,4 +19,9 @@ public class Store {
 		return items.get(name);
 	}
 	
+	public void showAllItems() {
+		for(Item i : items.values()) {
+			System.out.println("\t" + i.getName() + ": " + i.getCost());
+		}
+	}
 }

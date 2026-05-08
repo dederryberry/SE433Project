@@ -7,6 +7,7 @@ public class ShoppingCart {
 
 	private Map<String, CartItem> cart;
 	private double cartCost;
+	private double cartFullCost;
 	
 	public ShoppingCart() {
 		this.cart = new LinkedHashMap<>();
@@ -56,5 +57,24 @@ public class ShoppingCart {
 		cartCost = newCost;
 	}
 	
+	public void printCartItems() {
+		for(CartItem c : cart.values()) {
+			System.out.println("\tName: " + c.getName() + "; Quantity: " + c.getQuantity());
+		}
+	}
+	
+	public double getCartFullCost() {
+		return this.cartFullCost;
+	}
+	
+	public void setCartFullCost(double fullCost) {
+		this.cartFullCost = fullCost;
+	}
+	
+	public void emptyCart() {
+		cart.clear();
+		cartCost = 0.0;
+		cartFullCost = 0.0;
+	}
 	
 }
