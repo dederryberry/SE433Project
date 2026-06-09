@@ -5,6 +5,7 @@ import java.util.Scanner;
 import edu.derryberry.model.Customer;
 import edu.derryberry.model.CustomerState;
 import edu.derryberry.model.ShippingOption;
+import edu.derryberry.service.InputValidator;
 
 public class CustomerInfoCommand implements IMenuCommand{
 
@@ -25,7 +26,13 @@ public class CustomerInfoCommand implements IMenuCommand{
 		String name = scn.nextLine();
 		
 		System.out.print("Enter state of residence (e.g. IL, TN, GA): ");
-		String state = scn.nextLine().toUpperCase();
+		String state;
+		try {
+			state = InputValidator.validateState(scn.nextLine());
+		} catch (IllegalArgumentException e) {
+			System.out.println("Error: " + e.getMessage());
+			return;
+		}
 		
 		System.out.println("Enter desired shipping option: ");
 		System.out.println("\t1) Standard");

@@ -4,7 +4,14 @@ import edu.derryberry.model.Item;
 import edu.derryberry.model.ShoppingCart;
 import edu.derryberry.model.Store;
 
+import java.util.Set;
+
 public class InputValidator {
+
+    private static final Set<String> VALID_STATES = Set.of("AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL",
+        "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV",
+        "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA",
+        "WV", "WI", "WY", "DC", "PR");
 
     public static int parseQuantity(String input) {
         int quantity;
@@ -41,4 +48,14 @@ public class InputValidator {
             throw new IllegalArgumentException("Your cart is empty.");
         }
     }
+
+    public static String validateState(String input) {
+        String state = input.trim().toUpperCase();
+        if(!VALID_STATES.contains(state)) {
+            throw new IllegalArgumentException("'" + input + "' is not a valid state abbreviation.");
+        }
+        return state;
+    }
+
+
 }
