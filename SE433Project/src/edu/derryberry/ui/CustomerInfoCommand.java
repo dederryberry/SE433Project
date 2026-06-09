@@ -25,14 +25,14 @@ public class CustomerInfoCommand implements IMenuCommand{
 		String name = scn.nextLine();
 		
 		System.out.print("Enter state of residence (e.g. IL, TN, GA): ");
-		String state = scn.nextLine();
+		String state = scn.nextLine().toUpperCase();
 		
 		System.out.println("Enter desired shipping option: ");
 		System.out.println("\t1) Standard");
 		System.out.println("\t2) Next day");
 		
 		String shippingOptionText = scn.nextLine();
-		ShippingOption shippingOption = null;
+		ShippingOption shippingOption;
 		if(shippingOptionText.equals("1")) {
 			shippingOption = ShippingOption.STANDARD;
 		} else if(shippingOptionText.equals("2")) {

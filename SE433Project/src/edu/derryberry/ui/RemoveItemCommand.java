@@ -3,6 +3,7 @@ package edu.derryberry.ui;
 import java.util.Scanner;
 
 import edu.derryberry.model.ShoppingCart;
+import edu.derryberry.service.InputValidator;
 
 public class RemoveItemCommand implements IMenuCommand {
 
@@ -15,7 +16,15 @@ public class RemoveItemCommand implements IMenuCommand {
 	}
 	
 	public void execute() {
-		
+
+		// validate if the cart is empty
+		try {
+			InputValidator.validateCartNotEmpty(cart);
+		} catch (IllegalArgumentException e) {
+			System.out.println("Error: " + e.getMessage());
+			return;
+		}
+
 		System.out.println("Here is your cart: ");
 		cart.printCartItems();
 		

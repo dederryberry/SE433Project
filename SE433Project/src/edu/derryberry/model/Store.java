@@ -1,15 +1,17 @@
 package edu.derryberry.model;
 
+import edu.derryberry.service.FormatUtils;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Store {
 
-	private Map<String, Item> items;
+	private final Map<String, Item> items;
 	
 	public Store(List<Item> list) {
-		this.items = new LinkedHashMap<String, Item>();
+		this.items = new LinkedHashMap<>();
 		for(Item item : list) {
 			this.items.put(item.getName(), item);
 		}
@@ -21,7 +23,7 @@ public class Store {
 	
 	public void showAllItems() {
 		for(Item i : items.values()) {
-			System.out.println("\t" + i.getName() + ": " + i.getCost());
+			System.out.println("\t" + i.getName() + ": " + FormatUtils.formatMoney(i.getCost()));
 		}
 	}
 }

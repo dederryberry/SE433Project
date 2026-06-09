@@ -3,6 +3,7 @@ package edu.derryberry.ui;
 import java.util.Scanner;
 
 import edu.derryberry.model.ShoppingCart;
+import edu.derryberry.service.InputValidator;
 
 public class EditQuantityCommand implements IMenuCommand {
 	
@@ -15,7 +16,15 @@ public class EditQuantityCommand implements IMenuCommand {
 	}
 	
 	public void execute() {
-		
+
+		// validate if the cart is empty
+		try {
+			InputValidator.validateCartNotEmpty(cart);
+		} catch (IllegalArgumentException e) {
+			System.out.println("Error: " + e.getMessage());
+			return;
+		}
+
 		System.out.println("Here is your cart: ");
 		cart.printCartItems();
 		
@@ -26,8 +35,14 @@ public class EditQuantityCommand implements IMenuCommand {
 		String itemName = scn.nextLine();
 		
 		// get new quantity
-		System.out.println("What do you want the new quantity for that item to be? ");
-		int newQuantity = Integer.parseInt(scn.nextLine());
+		System.out.println("How many would you like to buy?");
+		int newQuantity;
+		try {
+			newQuantity = InputValidator.parseQuantity(scn.nextLine());
+		} catch (IllegalArgumentException e) {
+			System.out.println("Error: " + e.getMessage());
+			return;
+		}
 		
 		// update quantity
 		System.out.println("Updating item quantity...");

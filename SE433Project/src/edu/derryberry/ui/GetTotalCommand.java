@@ -2,12 +2,14 @@ package edu.derryberry.ui;
 
 import edu.derryberry.model.ShippingOption;
 import edu.derryberry.model.ShoppingCart;
+import edu.derryberry.service.FormatUtils;
+import edu.derryberry.service.InputValidator;
 
 public class GetTotalCommand implements IMenuCommand {
 
-	private ShoppingCart cart;
-	private ShippingOption shippingOption;
-	private String stateForTax;
+	private final ShoppingCart cart;
+	private final ShippingOption shippingOption;
+	private final String stateForTax;
 	
 	public GetTotalCommand(ShoppingCart cart, ShippingOption shippingOption, String state) {
 		this.cart = cart;
@@ -16,21 +18,33 @@ public class GetTotalCommand implements IMenuCommand {
 	}
 	
 	public void execute() {
-		
+
+		try {
+			InputValidator.validateCartNotEmpty(cart);
+		} catch (IllegalArgumentException e) {
+			System.out.println("Error: " + e.getMessage());
+			return;
+		}
+
 		double threshold = 50; // free shipping threshold for standard
 		double subtotal = cart.getCartCost();
 		double tax = calculateTax(subtotal, stateForTax);
 		double shipping = calculateShipping(shippingOption, subtotal, threshold);
 		double total = subtotal + tax + shipping;
-		
-		// set cart full cost...
-		cart.setCartFullCost(total);
+
+		// validate purchase amount
+		try {
+			InputValidator.validatePurchaseAmount(total);
+		} catch (IllegalArgumentException e) {
+			System.out.println("Error: " + e.getMessage());
+			return;
+		}
 		
 		System.out.println("Displaying totals...");
-		System.out.println("Cart subtotal: " + subtotal);
-		System.out.println("Tax: " + tax);
-		System.out.println("Shipping: " + shipping);
-		System.out.println("Total: " + total);
+		System.out.println("Cart subtotal: " + FormatUtils.formatMoney(subtotal));
+		System.out.println("Tax: " + FormatUtils.formatMoney(tax));
+		System.out.println("Shipping: " + FormatUtils.formatMoney(shipping));
+		System.out.println("Total: " + FormatUtils.formatMoney(total));
 		
 	}
 	

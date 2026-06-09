@@ -5,9 +5,8 @@ import java.util.Map;
 
 public class ShoppingCart {
 
-	private Map<String, CartItem> cart;
+	private final Map<String, CartItem> cart;
 	private double cartCost;
-	private double cartFullCost;
 	
 	public ShoppingCart() {
 		this.cart = new LinkedHashMap<>();
@@ -15,10 +14,14 @@ public class ShoppingCart {
 	}
 	
 	// add new item to cart
-	public void addItemToCart(CartItem cartItem, int quantity) {
-		cart.put(cartItem.getName(), cartItem);
+	public void addItemToCart(CartItem cartItem) {
+		if (cart.containsKey(cartItem.getName())) {
+			CartItem existing = cart.get(cartItem.getName());
+			existing.updateQuantity(existing.getQuantity() + cartItem.getQuantity());
+		} else {
+			cart.put(cartItem.getName(), cartItem);
+		}
 		updateCartCost();
-		
 	}
 	
 	// remove item from cart
@@ -34,14 +37,8 @@ public class ShoppingCart {
 	
 	// update item quantity
 	public void updateCartItemQuantity(String itemName, int newQuantity) {
-		// if update quantity is greater than 0, update it
-		// if less than 0, remove the item
-		if(cart.containsKey(itemName)) {
-			if(newQuantity > 0) {
-				cart.get(itemName).updateQuantity(newQuantity);
-			} else {
-				removeItemFromCart(itemName);
-			}
+		if (cart.containsKey(itemName)) {
+			cart.get(itemName).updateQuantity(newQuantity);
 			updateCartCost();
 		} else {
 			System.out.println("Item not found in cart!");
@@ -62,19 +59,18 @@ public class ShoppingCart {
 			System.out.println("\tName: " + c.getName() + "; Quantity: " + c.getQuantity());
 		}
 	}
-	
-	public double getCartFullCost() {
-		return this.cartFullCost;
-	}
-	
-	public void setCartFullCost(double fullCost) {
-		this.cartFullCost = fullCost;
-	}
-	
+
 	public void emptyCart() {
 		cart.clear();
 		cartCost = 0.0;
-		cartFullCost = 0.0;
+	}
+
+	public int getItemCount() {
+		return cart.size();
+	}
+
+	public boolean isEmpty() {
+		return cart.isEmpty();
 	}
 	
 }
