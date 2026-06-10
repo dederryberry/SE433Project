@@ -66,7 +66,11 @@ public class ShoppingCart {
 	}
 
 	public int getItemCount() {
-		return cart.size();
+		int count = 0;
+		for (CartItem c : cart.values()) {
+			count += c.getQuantity();
+		}
+		return count;
 	}
 
 	public boolean isEmpty() {
