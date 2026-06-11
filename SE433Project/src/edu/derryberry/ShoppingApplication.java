@@ -19,11 +19,7 @@ public class ShoppingApplication {
 	public static void main(String[] args) {
 
 		// Load Store
-		String storePath = "src/edu/derryberry/resources/store.csv";
 		List<Item> list = loadItems("src/edu/derryberry/resources/store.csv");
-//		list.add(new Item("Soap", 9.99));
-//		list.add(new Item("Batteries", 13.49));
-//		list.add(new Item("Bread", 3.99));
 		
 		// initialize store, customerState, shopping cart, menu, and scanner
 		Store store = new Store(list);
@@ -59,7 +55,7 @@ public class ShoppingApplication {
 		scn.close();
 	}
 
-	private static List<Item> loadItems(String filePath) {
+	static List<Item> loadItems(String filePath) {
 		List<Item> items = new ArrayList<>();
 		try(BufferedReader reader = Files.newBufferedReader(Paths.get(filePath))) {
 			reader.readLine(); // skip header
